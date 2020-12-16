@@ -1,18 +1,18 @@
 const express = require('express')
 
-const router = express.Router()
+const postRoutes = express.Router()
 
 // import controller methods
 const { create, list, read, update, remove } = require('../controllers/post')
 
 
 // route
-router.post('/post', create);
-router.get('/posts', list);
-router.get('/post/:slug', read); //req.params.slug
-router.put('/post/:slug', update);
-router.delete('/post/:slug', remove);
+postRoutes.post('/post', create);
+postRoutes.get('/posts', list);
+postRoutes.get('/post/:slug', read); //req.params.slug
+postRoutes.put('/post/:slug', update);
+postRoutes.delete('/post/:slug', remove);
 
 
 
-module.exports = router;
+module.exports = postRoutes;
