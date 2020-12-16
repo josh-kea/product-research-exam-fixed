@@ -57,3 +57,37 @@ exports.read = (req, res) => {
         res.json(post);
     })
 }
+
+
+exports.update = (req, res) => {
+    // const { slug } = req.params;
+    const slug = req.params.slug;
+    const { title, content, user } = req.body;
+
+    Post.findOneAndUpdate({slug : slug}, { title, content, user }, { new: true }, function(err, post) {
+        if (err) { 
+            console.log(err) 
+        }
+        res.json(post);
+    })
+}
+
+exports.remove = (req, res) => {
+    // const { slug } = req.params;
+    const slug = req.params.slug;
+
+    // console.log(req.params.slug);
+    // console.log(req.body)
+    Post.findOneAndRemove({slug : slug}, function(err, post) {
+        if (err) { 
+            console.log(err) 
+        }
+        res.json(
+            {
+                message: 'Post removed'
+            }
+        );
+
+
+    })
+}
