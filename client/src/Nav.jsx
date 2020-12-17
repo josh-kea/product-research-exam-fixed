@@ -1,7 +1,8 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
+import { getUser, logout } from './helpers.js'
 
-const Nav = () => {
+const Nav = (props) => {
     return(
     <nav>
         <ul className="nav nav-tabs">
@@ -11,13 +12,24 @@ const Nav = () => {
             <li className="nav-item pr-3 pt-3 pb-3">
                 <Link to="/create">Create</Link>
             </li>
-            <li className="nav-item ml-auto pr-3 pt-3 pb-3">
-                <Link to="/login">Login</Link>
-            </li>
+
+            {!getUser() && (
+                <li className="nav-item ml-auto pr-3 pt-3 pb-3">
+                    <Link to="/login">Login</Link>
+                </li>
+            )}
+
+            {getUser() && (
+                <li onClick={() => logout(() => props.history.push('/'))} className="nav-item ml-auto pr-3 pt-3 pb-3">
+                    <a>Logout</a>
+                </li>
+            )}
+
         </ul>
+
     </nav> 
     )
 }
 
 
-export default Nav;
+export default withRouter(Nav);

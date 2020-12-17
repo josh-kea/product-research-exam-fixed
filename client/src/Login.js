@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import Nav from './Nav'
+import {authenticate, getUser } from './helpers.js';
 
-const Login = () => {
+
+const Login = (props) => {
     // create a state
     const [state, setState] = useState( {
         name: '',
@@ -11,6 +13,10 @@ const Login = () => {
     })
 
     const{name,password} = state // destructuring values from state
+
+    useEffect(() => {
+        getUser() && props.history.push('/')
+    }, [])
 
     function handleChange(name) {
         return function(event) {
@@ -20,20 +26,20 @@ const Login = () => {
     
       const handleSubmit = event => {
         event.preventDefault();
-       //  console.table({ title, content, user })
+        console.table({ name, password })
     
-        // axios.post(`${process.env.REACT_APP_API}/post`, { title, content, user })
-        // .then(response => {
-        //   console.log(response)
-        //   // empty the state
-        //   setState({ ...state, title:'', content:'', user: ''})
-        //   // show success alert
-        //   alert(`Post titled ${response.data.title} is created.`)
-        // })
-        // .catch(error => {
-        //   console.log(error.response)
-        //   alert(error.response.data.error)
-        // })
+        axios.post(`${process.env.REACT_APP_API}/login`, { name, password })
+        .then(response => {
+            // console.log(response)
+            // response contains token
+            // redirect to create page
+            authenticate(response, () => {  props.history.push('/create') })
+
+        })
+        .catch(error => {
+          console.log(error.response)
+          alert(error.response.data.error)
+        })
     }
 
     return (
@@ -54,13 +60,13 @@ const Login = () => {
                     <label className="text-muted">Password</label>
                     <input value={password} onChange={handleChange('password')} type="text" className="form-control" placeholder="Enter your password" required/>
                 </div>
-                <button className="btn btn-primary">Create</button>
+                <button className="btn btn-primary">Login</button>
         </form>
         </div>
     )
 }
 
-export default Login;
+export default withRouter(Login);
 
 
 
