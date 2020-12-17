@@ -14,3 +14,9 @@ exports.login = (req,res) => {
         })
     }
 }
+
+exports.requireSignin = expressJwt({
+    secret: process.env.JWT_SECRET,
+    algorithms: ["HS256"], // hashing
+    userProperty: "auth",
+});

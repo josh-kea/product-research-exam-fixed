@@ -41,7 +41,7 @@ exports.list = (req, res) => {
             console.log(err) 
         }
         res.json(posts)
-    }).limit(2).sort({ createdAt: -1})
+    }).sort({ createdAt: -1})
 }
 
 exports.read = (req, res) => {

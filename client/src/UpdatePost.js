@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import Nav from './Nav';
 import axios from 'axios';
+import {getUser, getToken} from './helpers.js'
 
 
 const UpdatePost = (props) => {
@@ -42,7 +43,11 @@ const UpdatePost = (props) => {
     event.preventDefault();
    //  console.table({ title, content, user })
 
-    axios.put(`${process.env.REACT_APP_API}/post/${slug}`, { title, content, user })
+    axios.put(`${process.env.REACT_APP_API}/post/${slug}`, { title, content, user }, {
+      headers: {
+        authorization: `Bearer ${getToken()}`
+      }
+    })
     .then(response => {
       console.log(response)
 

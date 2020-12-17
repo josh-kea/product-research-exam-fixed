@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Nav from './Nav'
+import {getUser, getToken} from './helpers.js'
 
 
 const Create = () => {
@@ -8,7 +9,7 @@ const Create = () => {
     // state
     title: '',
     content: '',
-    user: ''
+    user: getUser()
   })
   // destructure
   const {title, content, user} = state
@@ -29,7 +30,11 @@ const Create = () => {
     event.preventDefault();
    //  console.table({ title, content, user })
 
-    axios.post(`${process.env.REACT_APP_API}/post`, { title, content, user })
+    axios.post(`${process.env.REACT_APP_API}/post`, { title, content, user }, {
+      headers: {
+        authorization: `Bearer ${getToken()}`
+      }
+    })
     .then(response => {
       console.log(response)
       // empty the state
